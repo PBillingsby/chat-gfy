@@ -2,10 +2,52 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
+import { useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
+const responses = [
+  "Nunya business",
+  "Google it",
+  "Go away!",
+  "Ohhhhh, shut up",
+  "lalalalalala",
+  "Pay me first",
+  "I'm sorry, I don't have the energy to be your personal assistant today.",
+  "I must be too busy being awesome to do that.",
+  "Sorry, I only do important things, and that doesn't seem to fit the bill.",
+  "I'd rather stick needles in my eyes. Thanks though!",
+  "I'd love to, but I think I'll just watch paint dry instead.",
+  "I think I'll take a pass and go play in traffic instead.",
+  "Nope, I have a standing appointment with my couch and Netflix.",
+  "I'd rather clean the toilet with my toothbrush, but thanks for asking.",
+  "I'd love to, but I promised myself to only do things I actually want to do today.",
+  "Sorry, I have more exciting plans... like counting the tiles on the ceiling.",
+  "I'd rather swim in a pool of lemon juice, but that's just me.",
+  "I'm allergic to boring tasks, so I'll have to pass.",
+  "I have better things to do, like rearrange my sock drawer.",
+  "I have a previous engagement with my bed and a good book.",
+  "I have a strict policy of only doing things that bring me joy, and that doesn't seem to fit the bill.",
+  "I'm sorry, I don't do requests. I only take orders from cats."
+]
 export default function Home() {
+  const [loading, setLoading] = useState()
+  const [prompt, setPrompt] = useState()
+  const [msg, setMsg] = useState()
+  const [submitted, setSubmitted] = useState(false)
+
+  const generateResponse = async () => {
+    event.preventDefault()
+    setMsg(null)
+    setLoading(true)
+    const wait = setTimeout(function () {
+      console.log("5 seconds have passed");
+      setLoading(false)
+      setSubmitted(true)
+      setMsg(responses[Math.floor(Math.random() * responses.length)])
+    }, 5000);
+
+  }
   return (
     <>
       <Head>
@@ -15,107 +57,37 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
+        <div className="rounded-lg p-6 w-1/2">
+          <div className="text-xl font-medium mb-4">ChatGFY</div>
+          {loading ? (
+            <div class="relative m-auto items-center block max-w-sm p-6">
+              <div role="status" class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" /><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" /></svg>
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          )
+            :
+            <form className="mb-4">
+              <textarea
+                onChange={(e) => setPrompt(e.target.value)}
+                className="resize-none w-full p-2 border border-gray-400 rounded-lg"
+                placeholder="Ask me anything!"
               />
-            </a>
-          </div>
+              <button onClick={generateResponse} className="bg-indigo-500 text-white py-2 px-4 rounded-full float-right">
+                Ask
+              </button>
+            </form>
+          }
+          {(submitted && prompt) && <div className="my-10 p-4 mt-20 bg-[#343541] h-[5rem]">You asked: {prompt}</div>}
+
+          {(submitted && msg) && <div className="my-10 p-4 bg-[#7d7f99] min-h-[5rem]">ChatGFY: {msg}</div>}
         </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
+        <div className="text-gray-600 fixed bottom-4 flex gap-12 justify-between">
+          <p>Created mostly by AI</p>
+          <span>|</span>
+          Last updated {new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
         </div>
       </main>
     </>
