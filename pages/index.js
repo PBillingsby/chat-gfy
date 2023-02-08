@@ -57,7 +57,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className="rounded-lg p-6 w-1/2">
+        <div className="rounded-lg p-6 md:w-1/2">
           <div className="text-xl font-medium mb-4">ChatGFY</div>
           {loading ? (
             <div class="relative m-auto items-center block max-w-sm p-6">
@@ -71,7 +71,7 @@ export default function Home() {
             <form className="mb-4">
               <textarea
                 onChange={(e) => setPrompt(e.target.value)}
-                className="resize-none w-full p-2 border border-gray-400 rounded-lg"
+                className="resize-none md:w-full p-2 border border-gray-400 rounded-lg"
                 placeholder="Ask me anything!"
               />
               <button onClick={generateResponse} className="bg-indigo-500 text-white py-2 px-4 rounded-full float-right">
@@ -79,12 +79,12 @@ export default function Home() {
               </button>
             </form>
           }
-          {(submitted && prompt) && <div className="my-10 p-4 mt-20 bg-[#343541] h-[5rem]">You asked: {prompt}</div>}
+          {(submitted && prompt) && <div className="rounded-md my-10 p-4 mt-20 bg-[#343541] h-[5rem]">You asked: {prompt}</div>}
 
-          {(submitted && msg) && <div className="my-10 p-4 bg-[#7d7f99] min-h-[5rem]">ChatGFY: {msg}</div>}
+          {(submitted && msg) && <div className="rounded-md my-10 p-4 bg-[#7d7f99] min-h-[5rem]">ChatGFY: {msg}</div>}
         </div>
 
-        <div className="text-gray-600 fixed bottom-4 flex gap-12 justify-between">
+        <div className="text-gray-600 fixed bottom-4 md:flex gap-12 justify-between">
           <p>Created mostly by AI</p>
           <span>|</span>
           Last updated {new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
